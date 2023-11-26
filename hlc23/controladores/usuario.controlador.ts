@@ -1,7 +1,6 @@
 
 import { Router, Request,Response } from "express";
-import bcrypt, { hash } from 'bcrypt';
-
+import bcryptjs from "bcryptjs";
 import { IUsuario, Usuario } from "../modelos/usuario.modelo";
 import Token from "../clases/token";
 import token from "../clases/token";
@@ -64,7 +63,7 @@ class usuarioController{
 
     create(req: Request, res: Response) {
       console.log("Paso por aqui+ create")
-        const password= bcrypt.hashSync(req.body.password,10);
+        const password= bcryptjs.hashSync(req.body.password,10);
         const user = {
             nombre   : req.body.nombre,
             apellidos   : req.body.apellidos,
@@ -138,7 +137,7 @@ class usuarioController{
                     mensaje: 'El usuario no existe'
                 });
             }
-            if (bcrypt.compareSync(body.password, usuarioDB.password)) { // Corrección aquí
+            if (bcryptjs.compareSync(body.password, usuarioDB.password)) { // Corrección aquí
               const tokenUser = Token.generaToken({
                 _id: usuarioDB._id,
                 nombre: usuarioDB.nombre,
@@ -357,7 +356,7 @@ class usuarioController{
               mensaje: 'Usuario no encontrado',
             });
           }
-          const nuevaContrasenaValida = await bcrypt.compare(nuevaContrasena, userDB.password);
+          const nuevaContrasenaValida = await bcryptjs.compare(nuevaContrasena, userDB.password);
 
     if (nuevaContrasenaValida) {
       return res.status(400).json({
@@ -367,7 +366,7 @@ class usuarioController{
     }
       
           // Verifica que la contraseña actual sea correcta
-          const contrasenaValida = await bcrypt.compare(contrasenaActual, userDB.password);
+          const contrasenaValida = await bcryptjs.compare(contrasenaActual, userDB.password);
       
           if (!contrasenaValida) {
             return res.status(400).json({
@@ -377,7 +376,7 @@ class usuarioController{
           }
       
           // Encripta la nueva contraseña
-          const nuevaContrasenaEncriptada = await bcrypt.hash(nuevaContrasena, 10);
+          const nuevaContrasenaEncriptada = await bcryptjs.hash(nuevaContrasena, 10);
       
           // Actualiza la contraseña del usuario en la base de datos
           userDB.password = nuevaContrasenaEncriptada;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const usuario_modelo_1 = require("../modelos/usuario.modelo");
 const token_1 = __importDefault(require("../clases/token"));
 const articulo_modelo_1 = require("../modelos/articulo.modelo");
@@ -68,7 +68,7 @@ class usuarioController {
     }
     create(req, res) {
         console.log("Paso por aqui+ create");
-        const password = bcrypt_1.default.hashSync(req.body.password, 10);
+        const password = bcryptjs_1.default.hashSync(req.body.password, 10);
         const user = {
             nombre: req.body.nombre,
             apellidos: req.body.apellidos,
@@ -139,7 +139,7 @@ class usuarioController {
                     mensaje: 'El usuario no existe'
                 });
             }
-            if (bcrypt_1.default.compareSync(body.password, usuarioDB.password)) { // Corrección aquí
+            if (bcryptjs_1.default.compareSync(body.password, usuarioDB.password)) { // Corrección aquí
                 const tokenUser = token_1.default.generaToken({
                     _id: usuarioDB._id,
                     nombre: usuarioDB.nombre,
@@ -335,7 +335,7 @@ class usuarioController {
                         mensaje: 'Usuario no encontrado',
                     });
                 }
-                const nuevaContrasenaValida = yield bcrypt_1.default.compare(nuevaContrasena, userDB.password);
+                const nuevaContrasenaValida = yield bcryptjs_1.default.compare(nuevaContrasena, userDB.password);
                 if (nuevaContrasenaValida) {
                     return res.status(400).json({
                         ok: false,
@@ -343,7 +343,7 @@ class usuarioController {
                     });
                 }
                 // Verifica que la contraseña actual sea correcta
-                const contrasenaValida = yield bcrypt_1.default.compare(contrasenaActual, userDB.password);
+                const contrasenaValida = yield bcryptjs_1.default.compare(contrasenaActual, userDB.password);
                 if (!contrasenaValida) {
                     return res.status(400).json({
                         ok: false,
@@ -351,7 +351,7 @@ class usuarioController {
                     });
                 }
                 // Encripta la nueva contraseña
-                const nuevaContrasenaEncriptada = yield bcrypt_1.default.hash(nuevaContrasena, 10);
+                const nuevaContrasenaEncriptada = yield bcryptjs_1.default.hash(nuevaContrasena, 10);
                 // Actualiza la contraseña del usuario en la base de datos
                 userDB.password = nuevaContrasenaEncriptada;
                 yield userDB.save();
@@ -705,7 +705,7 @@ class usuarioController {
     */
     newUser(req, res) {
         let pwdPlana = req.body.pwd;
-        const hash = bcrypt_1.default.hashSync(pwdPlana, 10);
+        const hash = bcrypt.hashSync(pwdPlana, 10);
         const nuevoUsuario = {
             usuario: req.body.usuario,
             email: req.body.email,
