@@ -705,7 +705,7 @@ class usuarioController {
     */
     newUser(req, res) {
         let pwdPlana = req.body.pwd;
-        const hash = bcrypt.hashSync(pwdPlana, 10);
+        const hash = bcryptjs_1.default.hashSync(pwdPlana, 10);
         const nuevoUsuario = {
             usuario: req.body.usuario,
             email: req.body.email,

@@ -756,7 +756,7 @@ login(req:Request, res:Response){
 newUser(req:Request, res:Response){
 
     let pwdPlana=req.body.pwd;
-    const hash= bcrypt.hashSync(pwdPlana,10);
+    const hash= bcryptjs.hashSync(pwdPlana,10);
    
     
 const nuevoUsuario={
