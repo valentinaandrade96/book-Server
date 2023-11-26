@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const usuario_controlador_1 = __importDefault(require("../controladores/usuario.controlador"));
+const verificaToken_1 = require("../middlewares/verificaToken");
+const usuarioRutas = (0, express_1.Router)();
+//usuarioRutas.get('/getDatos',usuarioController.prototype.getDatos);
+//usuarioRutas.post('/newUser',usuarioController.prototype.newUser);
+usuarioRutas.post('/login', usuario_controlador_1.default.prototype.login);
+//usuarioRutas.get('/getEmail', verificaToken, usuarioController.prototype.getEmail);
+//usuarioRutas.get('/renewToken', verificaToken, usuarioController.prototype.renewToken);
+usuarioRutas.get('/get', usuario_controlador_1.default.prototype.get);
+usuarioRutas.post('/create', usuario_controlador_1.default.prototype.create);
+usuarioRutas.post('/agregarCarrito', usuario_controlador_1.default.prototype.agregarAlCarrito);
+//usuarioRutas.delete('/eliminarDelCarrito', usuarioController.prototype.eliminarDelCarrito);
+usuarioRutas.get('/obtenerIdPorEmail/:email', usuario_controlador_1.default.prototype.obtenerIdPorEmail);
+usuarioRutas.post('/update', verificaToken_1.verificaToken, usuario_controlador_1.default.prototype.update);
+usuarioRutas.get('/obtenerRolPorEmail/:email', usuario_controlador_1.default.prototype.obtenerRolPorEmail);
+exports.default = usuarioRutas;
