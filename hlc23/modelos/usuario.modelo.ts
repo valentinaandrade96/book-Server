@@ -1,7 +1,7 @@
 
 import mongoose, { Schema, model, Document } from "mongoose";
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Articulo } from "./articulo.modelo";
 
 const usuarioSchema = new Schema({
