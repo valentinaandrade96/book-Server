@@ -450,6 +450,7 @@ class usuarioController{
             ok: true,
             mensaje: 'Artículo eliminado del carrito correctamente',
             usuario: usuarioActualizado,
+            token: Token.generaToken(usuarioActualizado)
           });
         } catch (err: any) {
           res.status(500).json({
@@ -494,6 +495,7 @@ class usuarioController{
             ok: true,
             mensaje: 'Carrito movido a compras correctamente',
             usuario: usuario,
+            token: Token.generaToken(usuario)
           };
         } catch (err: any) {
           return {
@@ -601,6 +603,7 @@ class usuarioController{
           ok: true,
           mensaje: 'Artículo eliminado del carrito correctamente',
           usuario: usuarioActualizado,
+          token:Token.generaToken(usuarioActualizado),
         });
       } catch (err: any) {
         res.status(500).json({
@@ -632,7 +635,7 @@ class usuarioController{
         res.status(200).json({
           ok: true,
           mensaje: 'Se ha cambiado a enviado',
-          //token: Token.generaToken(usuario),
+          token: Token.generaToken(usuario),
           usuario: usuario,
         });
       }
