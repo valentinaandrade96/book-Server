@@ -227,7 +227,6 @@ class usuarioController {
                     });
                 }
                 const libro = yield articulo_modelo_1.Articulo.findOne({ titulo });
-                console.log(libro);
                 if (!libro) {
                     return res.status(404).json({
                         ok: false,
@@ -392,7 +391,6 @@ class usuarioController {
     }
     eliminarDelCarrito(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Paso por aqui+ eliminarDelCarrito");
             try {
                 const titulo = req.body.titulo;
                 const email = req.body.email;
@@ -483,7 +481,6 @@ class usuarioController {
                 const email = typeof req.body.email === 'string' ? req.body.email : '';
                 console.log(email + "  " + titulo);
                 const usuario = yield usuario_modelo_1.Usuario.findOne({ email });
-                console.log(usuario);
                 if (!usuario) {
                     return res.status(404).json({
                         ok: false,
@@ -507,7 +504,6 @@ class usuarioController {
                 console.log("elemento" + elemento);
                 // Agrega el nuevo artículo al array "carrito" del usuario
                 usuario.favoritos.push(elemento);
-                console.log("elemento" + usuario.favoritos);
                 // Guarda los cambios en la base de datos
                 const usuarioActualizado = yield usuario.save();
                 //console.log("usuarioActualizado"+usuarioActualizado.titulo)
@@ -556,7 +552,6 @@ class usuarioController {
                 }
                 console.log("usuario.favoritos" + usuario.favoritos);
                 usuario.favoritos.splice(index, 1);
-                console.log("usuario.favoritos after eiminar" + usuario.favoritos);
                 // Guarda los cambios en la base de datos
                 const usuarioActualizado = yield usuario.save();
                 res.status(200).json({

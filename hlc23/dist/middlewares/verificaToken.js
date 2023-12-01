@@ -20,7 +20,7 @@ dotenv_1.default.config();
 const verificaToken = (req, res, next) => {
     // Obtener el token del encabezado 'x-token'
     const token = req.header('x-token');
-    console.log(token);
+    console.log("verificaToken" + token);
     // Verificar si el token está presente
     if (!token) {
         return res.status(401).json({

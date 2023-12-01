@@ -8,7 +8,7 @@ dotenv.config();
 export const verificaToken = (req: Request, res: Response, next: NextFunction) => {
   // Obtener el token del encabezado 'x-token'
   const token = req.header('x-token');
-  console.log(token)
+  console.log("verificaToken"+token)
 
   // Verificar si el token está presente
   if (!token) {

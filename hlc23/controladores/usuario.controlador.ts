@@ -244,7 +244,7 @@ class usuarioController{
             }
     
             const libro:any = await Articulo.findOne({ titulo });
-            console.log(libro)
+            
             if (!libro) {
                 return res.status(404).json({
                   ok: false,
@@ -420,7 +420,7 @@ class usuarioController{
       
     
     async eliminarDelCarrito(req: Request, res: Response) {
-      console.log("Paso por aqui+ eliminarDelCarrito")
+      
         try {
           const titulo  = req.body.titulo;
         const  email = req.body.email;
@@ -522,7 +522,7 @@ class usuarioController{
             console.log(email+"  "+titulo)
             
             const usuario = await Usuario.findOne({ email });
-           console.log(usuario)
+           
             if (!usuario) {
                 return res.status(404).json({
                     ok: false,
@@ -548,7 +548,7 @@ class usuarioController{
     
             // Agrega el nuevo artículo al array "carrito" del usuario
             usuario.favoritos.push(elemento);
-            console.log("elemento"+usuario.favoritos)
+            
             // Guarda los cambios en la base de datos
             const usuarioActualizado = await usuario.save();
             //console.log("usuarioActualizado"+usuarioActualizado.titulo)
@@ -598,7 +598,7 @@ class usuarioController{
         }
     console.log("usuario.favoritos"+usuario.favoritos)
         usuario.favoritos.splice(index, 1);
-        console.log("usuario.favoritos after eiminar"+usuario.favoritos)
+       
         // Guarda los cambios en la base de datos
         const usuarioActualizado = await usuario.save();
     
