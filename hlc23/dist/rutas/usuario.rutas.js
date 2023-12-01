@@ -12,7 +12,7 @@ const usuarioRutas = (0, express_1.Router)();
 usuarioRutas.post('/login', usuario_controlador_1.default.prototype.login);
 //usuarioRutas.get('/getEmail', verificaToken, usuarioController.prototype.getEmail);
 //usuarioRutas.get('/renewToken', verificaToken, usuarioController.prototype.renewToken);
-usuarioRutas.get('/get', verificaToken_1.verificaToken, usuario_controlador_1.default.prototype.get);
+usuarioRutas.get('/get', usuario_controlador_1.default.prototype.get);
 usuarioRutas.post('/create', usuario_controlador_1.default.prototype.create);
 usuarioRutas.post('/agregarCarrito', usuario_controlador_1.default.prototype.agregarAlCarrito);
 usuarioRutas.post('/eliminarDelCarrito', usuario_controlador_1.default.prototype.eliminarDelCarrito);
