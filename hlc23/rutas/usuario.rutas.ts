@@ -10,7 +10,7 @@ const usuarioRutas= Router();
 usuarioRutas.post('/login', usuarioController.prototype.login);
 //usuarioRutas.get('/getEmail', verificaToken, usuarioController.prototype.getEmail);
 //usuarioRutas.get('/renewToken', verificaToken, usuarioController.prototype.renewToken);
-usuarioRutas.get('/get',  usuarioController.prototype.get);
+//usuarioRutas.get('/get', verificaToken, usuarioController.prototype.get);
 usuarioRutas.post('/create',usuarioController.prototype.create);
 usuarioRutas.post('/agregarCarrito', usuarioController.prototype.agregarAlCarrito);
 usuarioRutas.post('/eliminarDelCarrito', usuarioController.prototype.eliminarDelCarrito);
