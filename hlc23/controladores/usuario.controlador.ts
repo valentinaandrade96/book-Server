@@ -270,6 +270,7 @@ class usuarioController{
                 ok: true,
                 mensaje: 'Artículo agregado al carrito correctamente',
                 usuario: usuarioActualizado,
+                token: Token.generaToken(usuarioActualizado)
                 
             });
         } catch (err:any) {
