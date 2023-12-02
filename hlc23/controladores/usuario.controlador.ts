@@ -464,51 +464,50 @@ class usuarioController{
         }
       }
       async moverCarritoACompras(req: Request, res: Response) {
-        console.log("Paso por aqui+ moverCarritoACompra")
-         const email=req.body.email 
-        console.log(email)
-        
+        console.log("Paso por aqui+ moverCarritoACompra");
+        const email = req.body.email;
+        console.log(email);
+      
         try {
           // Buscar al usuario por su email
           const usuario = await Usuario.findOne({ email });
-          console.log(usuario)
+          console.log(usuario);
           if (!usuario) {
-            return {
+            return res.status(404).json({
               ok: false,
               mensaje: 'Usuario no encontrado',
-            };
+            });
           }
-      
-          
       
           // Actualizar el array de compras con los nuevos elementos y vaciar el carrito
           usuario.carrito.forEach((articulo) => {
-            const index = usuario.carrito.findIndex((item) => item === articulo); // Encuentra el índice del artículo
+            const index = usuario.carrito.findIndex((item) => item === articulo);
             if (index !== -1) {
               usuario.compras.push(articulo); // Agrega el artículo a la lista de compras
               usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
             }
           });
-          //usuario.carrito =[{}];
       
           // Guardar los cambios en la base de datos
           await usuario.save();
       
-          return {
+          res.status(200).json({
             ok: true,
             mensaje: 'Carrito movido a compras correctamente',
             usuario: usuario,
             token: Token.generaToken(usuario)
-          };
+          });
+      
         } catch (err: any) {
-          return {
+          console.error('Error al mover el carrito a compras:', err);
+          res.status(500).json({
             ok: false,
             mensaje: 'Error al mover el carrito a compras',
             error: err.message,
-          };
+          });
         }
       }
-
+      
 
       async  agregarAFavorito(req: Request, res: Response) {
         console.log("empieza agregar a favs")
