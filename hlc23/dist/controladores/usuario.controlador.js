@@ -499,7 +499,8 @@ class usuarioController {
                     titulo: libro.titulo,
                     img: libro.img,
                     ISBN: libro.ISBN,
-                    enviado: false
+                    enviado: false,
+                    precioTotal: libro.precio_venta
                 };
                 console.log("elemento" + elemento);
                 // Agrega el nuevo artículo al array "carrito" del usuario

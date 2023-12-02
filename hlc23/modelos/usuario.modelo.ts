@@ -43,7 +43,11 @@ const usuarioSchema = new Schema({
             type: Boolean,
           //
             required: [true ]
-        }
+        }, precioTotal: {
+            type: Number,
+            required: [true]
+        },
+        
        
     }],
     nacimiento: {
@@ -147,7 +151,9 @@ export interface IUsuario extends Document {
     favoritos: [{
         titulo:string,
         img:string,
-        ISBN:string
+        ISBN:string,
+        precioTotal:number,
+        enviado:boolean,
     }],
     rol:string
     carrito:[{
@@ -155,7 +161,8 @@ export interface IUsuario extends Document {
         img:string,
         ISBN:string,
         precioTotal:number,
-        enviado:boolean
+        enviado:boolean,
+        
     }],
     compras: [{
         titulo:string,

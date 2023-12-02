@@ -37,7 +37,10 @@ const usuarioSchema = new mongoose_1.Schema({
                 type: Boolean,
                 //
                 required: [true]
-            }
+            }, precioTotal: {
+                type: Number,
+                required: [true]
+            },
         }],
     nacimiento: {
         type: Date,
