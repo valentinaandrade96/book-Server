@@ -54,7 +54,7 @@ class articuloControlador {
                     message: 'No se pudo crear el artículo'
                 });
             }else{
-                return res.status(500).json({
+                return res.status(200).json({
                 status: 'Ok',
                 message: 'El libro ha sido creado correctamente.',
                 libro:articuloDB
