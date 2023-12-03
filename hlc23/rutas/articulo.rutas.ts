@@ -13,6 +13,6 @@ articuloRutas.get('/getLibroPorTitulo', articuloControlador.prototype.findByTitl
 //articuloRutas.put('/update/:articulo_id', articuloControlador.prototype.update);
 //articuloRutas.post('/upload', articuloControlador.prototype.upload);
 //articuloRutas.get('/imagen/:userid/:img', articuloControlador.prototype.getImg);
-//articuloRutas.delete('/delete/:articulo_id', articuloControlador.prototype.delete);
+articuloRutas.delete('/delete/:titulo', articuloControlador.prototype.delete);
 
 export default articuloRutas;

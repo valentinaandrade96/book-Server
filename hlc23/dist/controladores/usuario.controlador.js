@@ -113,7 +113,7 @@ class usuarioController {
                 return res.status(200).json({
                     status: 'Ok',
                     message: `El usuario ${usuarioDB.email} ha sido creado correctamente.`,
-                    usuarioDB: usuarioDB,
+                    usuarioDb: usuarioDB,
                     token: tokenUser
                 });
             }
@@ -726,7 +726,7 @@ class usuarioController {
                 return res.status(200).json({
                     status: "ok",
                     message: "Usuario creado correctamente ",
-                    usuarioDB: usuarioDB
+                    usuarioDB
                 });
             }
         });

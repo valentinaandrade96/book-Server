@@ -113,7 +113,7 @@ class usuarioController{
                 return res.status(200).json({
                     status: 'Ok',
                     message: `El usuario ${usuarioDB.email} ha sido creado correctamente.`,
-                    usuarioDB: usuarioDB,
+                    usuarioDb: usuarioDB,
                     token: tokenUser
                 });
             } else {
@@ -498,7 +498,7 @@ class usuarioController{
             token: Token.generaToken(usuario)
           });
       
-        } catch (err: any) {
+        } catch (err:any) {
           console.error('Error al mover el carrito a compras:', err);
           res.status(500).json({
             ok: false,
@@ -786,7 +786,7 @@ Usuario.create(nuevoUsuario,(err,usuarioDB)=>{
         return res.status(200).json({
             status:"ok",
             message:"Usuario creado correctamente ",
-            usuarioDB: usuarioDB
+            usuarioDB
         });
         
         }

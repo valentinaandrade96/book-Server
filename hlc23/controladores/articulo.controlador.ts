@@ -139,6 +139,25 @@ class articuloControlador {
             });
         }
     }
+    async delete(req: any, res: Response) {
+        const titulo = req.params.titulo;
+        console.log(titulo)
+  
+        try {
+          const articulo = await Articulo.findOne({ titulo });
+          // const articulo = await Articulo.findById(articuloId).where({ usuario: usuarioId });
+  
+      
+          if (!articulo) {
+            return res.status(404).json({ success: false, error: 'No se encontró el artículo' });
+          }
+      
+          await articulo.remove();
+          res.json({ success: true, message: 'Artículo eliminado correctamente' });
+        } catch (error: any) {
+          res.status(500).json({ success: false, error: error.message });
+        }
+      }
     
     
     
@@ -217,7 +236,7 @@ class articuloControlador {
     };
 
     // WIP
-    // Elimnar post
+    
     async delete(req: any, res: Response) {
       const articuloId = req.params.articulo_id;
       const usuarioId = req.usuario._id;

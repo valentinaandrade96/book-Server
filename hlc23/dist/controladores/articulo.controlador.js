@@ -127,5 +127,23 @@ class articuloControlador {
             }
         });
     }
+    delete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const titulo = req.params.titulo;
+            console.log(titulo);
+            try {
+                const articulo = yield articulo_modelo_1.Articulo.findOne({ titulo });
+                // const articulo = await Articulo.findById(articuloId).where({ usuario: usuarioId });
+                if (!articulo) {
+                    return res.status(404).json({ success: false, error: 'No se encontró el artículo' });
+                }
+                yield articulo.remove();
+                res.json({ success: true, message: 'Artículo eliminado correctamente' });
+            }
+            catch (error) {
+                res.status(500).json({ success: false, error: error.message });
+            }
+        });
+    }
 }
 exports.default = articuloControlador;
