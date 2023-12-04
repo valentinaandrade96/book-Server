@@ -445,11 +445,14 @@ class usuarioController {
                         mensaje: 'Usuario no encontrado',
                     });
                 }
-                // Actualizar el array de compras con los nuevos elementos y vaciar el carrito
                 usuario.carrito.forEach((articulo) => {
-                    const index = usuario.carrito.findIndex((item) => item === articulo);
+                    usuario.compras.push(articulo); // Agrega el artículo a la lista de compras
+                    // Elimina el artículo del carrito
+                });
+                usuario.carrito.forEach((itemArt) => {
+                    const index = usuario.carrito.findIndex((item) => item === itemArt);
                     if (index !== -1) {
-                        usuario.compras.push(articulo); // Agrega el artículo a la lista de compras
+                        // Agrega el artículo a la lista de compras
                         usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
                     }
                 });
