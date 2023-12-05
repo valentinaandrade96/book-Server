@@ -27,5 +27,6 @@ usuarioRutas.post('/moverCarritoACompras', usuario_controlador_1.default.prototy
 usuarioRutas.post('/agregarAFavorito', usuario_controlador_1.default.prototype.agregarAFavorito);
 usuarioRutas.post('/eliminarDeFavoritos', usuario_controlador_1.default.prototype.eliminarDeFavoritos);
 usuarioRutas.post('/setEnviado', usuario_controlador_1.default.prototype.setEnviado);
+usuarioRutas.delete('/delete/:email', usuario_controlador_1.default.prototype.delete);
 console.log("Rutas");
 exports.default = usuarioRutas;

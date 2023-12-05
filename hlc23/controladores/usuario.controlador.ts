@@ -26,6 +26,25 @@ class usuarioController{
       });
     }
   }
+  async delete(req: any, res: Response) {
+    const email = req.params.email;
+    
+
+    try {
+      const usuario = await Usuario.findOne({ email });
+      // const articulo = await Articulo.findById(articuloId).where({ usuario: usuarioId });
+
+  
+      if (!usuario) {
+        return res.status(404).json({ success: false, error: 'No se encontró el Usuario' });
+      }
+  
+      await usuario.remove();
+      res.json({ success: true, message: 'Usuario eliminado correctamente' });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  }
 
 
     get(req: any, res: Response) {

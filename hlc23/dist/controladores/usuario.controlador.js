@@ -37,6 +37,23 @@ class usuarioController {
             }
         });
     }
+    delete(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const email = req.params.email;
+            try {
+                const usuario = yield usuario_modelo_1.Usuario.findOne({ email });
+                // const articulo = await Articulo.findById(articuloId).where({ usuario: usuarioId });
+                if (!usuario) {
+                    return res.status(404).json({ success: false, error: 'No se encontró el Usuario' });
+                }
+                yield usuario.remove();
+                res.json({ success: true, message: 'Usuario eliminado correctamente' });
+            }
+            catch (error) {
+                res.status(500).json({ success: false, error: error.message });
+            }
+        });
+    }
     get(req, res) {
         console.log("Paso por aqui");
         const usuario = req.usuario;

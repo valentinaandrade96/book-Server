@@ -25,5 +25,7 @@ usuarioRutas.post('/moverCarritoACompras',  usuarioController.prototype.moverCar
 usuarioRutas.post('/agregarAFavorito', usuarioController.prototype.agregarAFavorito);
 usuarioRutas.post('/eliminarDeFavoritos', usuarioController.prototype.eliminarDeFavoritos);
 usuarioRutas.post('/setEnviado', usuarioController.prototype.setEnviado);
+usuarioRutas.delete('/delete/:email', usuarioController.prototype.delete);
+
 console.log("Rutas")
 export default usuarioRutas;
