@@ -497,30 +497,54 @@ class usuarioController{
               mensaje: 'Usuario no encontrado',
             });
           }
-      
+      const carritosafe: any=[]
           
-          usuario.carrito.forEach((articulo) => {
-            
-              usuario.compras.push(articulo); // Agrega el artículo a la lista de compras
+          usuario.carrito.forEach(async (articulo) => {
+           const titulo=articulo.titulo;
+            const libro = await Articulo.findOne({titulo});
+           
+            if(libro){
+              if(libro.stock<=0){
+               carritosafe.push(articulo);
+                }else{
+                  usuario.compras.push(articulo);
+                  libro.stock=(libro.stock-1)
+                }
+                libro.save();
+
+              }
+            });
+              
+          
+              // Agrega el artículo a la lista de compras
                // Elimina el artículo del carrito
-            }
-          );
+            
+          
           usuario.carrito.forEach((itemArt)=>{
             const index = usuario.carrito.findIndex((item) => item === itemArt);
             if (index !== -1) {
                // Agrega el artículo a la lista de compras
               usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
             }
-          })
-      
+          });
+          usuario.carrito= carritosafe;
           // Guardar los cambios en la base de datos
           await usuario.save();
-      
+      if(carritosafe.lenght()>0){
+        res.status(200).json({
+          ok: true,
+          mensaje: 'Carrito movido a compras correctamente menos algunos libros',
+          usuario: usuario,
+          token: Token.generaToken(usuario),
+          carritosafe:carritosafe
+        });
+      }
           res.status(200).json({
             ok: true,
             mensaje: 'Carrito movido a compras correctamente',
             usuario: usuario,
-            token: Token.generaToken(usuario)
+            token: Token.generaToken(usuario),
+            carritosafe:''
           });
       
         } catch (err:any) {

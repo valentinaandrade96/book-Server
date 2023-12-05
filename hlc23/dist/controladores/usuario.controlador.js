@@ -462,10 +462,23 @@ class usuarioController {
                         mensaje: 'Usuario no encontrado',
                     });
                 }
-                usuario.carrito.forEach((articulo) => {
-                    usuario.compras.push(articulo); // Agrega el artículo a la lista de compras
-                    // Elimina el artículo del carrito
-                });
+                const carritosafe = [];
+                usuario.carrito.forEach((articulo) => __awaiter(this, void 0, void 0, function* () {
+                    const titulo = articulo.titulo;
+                    const libro = yield articulo_modelo_1.Articulo.findOne({ titulo });
+                    if (libro) {
+                        if (libro.stock <= 0) {
+                            carritosafe.push(articulo);
+                        }
+                        else {
+                            usuario.compras.push(articulo);
+                            libro.stock = (libro.stock - 1);
+                        }
+                        libro.save();
+                    }
+                }));
+                // Agrega el artículo a la lista de compras
+                // Elimina el artículo del carrito
                 usuario.carrito.forEach((itemArt) => {
                     const index = usuario.carrito.findIndex((item) => item === itemArt);
                     if (index !== -1) {
@@ -473,13 +486,24 @@ class usuarioController {
                         usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
                     }
                 });
+                usuario.carrito = carritosafe;
                 // Guardar los cambios en la base de datos
                 yield usuario.save();
+                if (carritosafe.lenght() > 0) {
+                    res.status(200).json({
+                        ok: true,
+                        mensaje: 'Carrito movido a compras correctamente menos algunos libros',
+                        usuario: usuario,
+                        token: token_1.default.generaToken(usuario),
+                        carritosafe: carritosafe
+                    });
+                }
                 res.status(200).json({
                     ok: true,
                     mensaje: 'Carrito movido a compras correctamente',
                     usuario: usuario,
-                    token: token_1.default.generaToken(usuario)
+                    token: token_1.default.generaToken(usuario),
+                    carritosafe: ''
                 });
             }
             catch (err) {
