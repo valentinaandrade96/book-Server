@@ -530,7 +530,7 @@ class usuarioController{
           usuario.carrito= carritosafe;
           // Guardar los cambios en la base de datos
           await usuario.save();
-      if(carritosafe.lenght()>0){
+      if(carritosafe.length >0){
         res.status(200).json({
           ok: true,
           mensaje: 'Carrito movido a compras correctamente menos algunos libros',
