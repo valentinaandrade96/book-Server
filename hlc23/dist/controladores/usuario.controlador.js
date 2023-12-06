@@ -462,55 +462,48 @@ class usuarioController {
                         mensaje: 'Usuario no encontrado',
                     });
                 }
-                const carritosafe = [];
-                usuario.carrito.forEach((articulo) => __awaiter(this, void 0, void 0, function* () {
+                const carritoSafe = [];
+                for (const articulo of usuario.carrito) {
                     const titulo = articulo.titulo;
                     const libro = yield articulo_modelo_1.Articulo.findOne({ titulo });
                     if (libro) {
                         if (libro.stock <= 0) {
-                            carritosafe.push(articulo);
+                            // No hay suficiente stock, o no hay stock, mantener en carrito
+                            carritoSafe.push(articulo);
                         }
                         else {
+                            // Hay stock suficiente
                             usuario.compras.push(articulo);
-                            libro.stock = (libro.stock - 1);
+                            libro.stock -= libro.stock; // Restar la cantidad comprada del stock
+                            yield libro.save();
                         }
-                        libro.save();
                     }
-                }));
-                // Agrega el artículo a la lista de compras
-                // Elimina el artículo del carrito
-                usuario.carrito.forEach((itemArt) => {
-                    const index = usuario.carrito.findIndex((item) => item === itemArt);
-                    if (index !== -1) {
-                        // Agrega el artículo a la lista de compras
-                        usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
-                    }
-                });
-                usuario.carrito = carritosafe;
-                // Guardar los cambios en la base de datos
+                }
+                usuario.carrito = carritoSafe;
                 yield usuario.save();
-                if (carritosafe.length > 0) {
+                if (carritoSafe.length > 0) {
                     res.status(200).json({
                         ok: true,
-                        mensaje: 'Carrito movido a compras correctamente menos algunos libros',
+                        mensaje: 'Carrito movido a compras parcialmente',
                         usuario: usuario,
                         token: token_1.default.generaToken(usuario),
-                        carritosafe: carritosafe
+                        carritosafe: carritoSafe
                     });
                 }
-                res.status(200).json({
-                    ok: true,
-                    mensaje: 'Carrito movido a compras correctamente',
-                    usuario: usuario,
-                    token: token_1.default.generaToken(usuario),
-                    carritosafe: ''
-                });
+                else {
+                    res.status(200).json({
+                        ok: true,
+                        mensaje: 'Carrito movido a compras completamente',
+                        usuario: usuario,
+                        token: token_1.default.generaToken(usuario)
+                    });
+                }
             }
             catch (err) {
                 console.error('Error al mover el carrito a compras:', err);
                 res.status(500).json({
                     ok: false,
-                    mensaje: 'Error al mover el carrito a compras',
+                    mensaje: 'Error interno del servidor',
                     error: err.message,
                 });
             }

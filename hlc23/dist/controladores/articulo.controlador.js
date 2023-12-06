@@ -23,7 +23,7 @@ class articuloControlador {
                 return res.status(200).json({
                     status: 'Ok',
                     message: 'Artículos obtenidos correctamente',
-                    articulos
+                    articulos: articulos
                 });
             });
         });

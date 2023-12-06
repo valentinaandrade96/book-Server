@@ -486,77 +486,66 @@ class usuarioController{
         console.log("Paso por aqui+ moverCarritoACompra");
         const email = req.body.email;
         console.log(email);
-      
+    
         try {
-          // Buscar al usuario por su email
-          const usuario = await Usuario.findOne({ email });
-          console.log(usuario);
-          if (!usuario) {
-            return res.status(404).json({
-              ok: false,
-              mensaje: 'Usuario no encontrado',
-            });
-          }
-      const carritosafe: any=[]
-          
-          usuario.carrito.forEach(async (articulo) => {
-           const titulo=articulo.titulo;
-            const libro = await Articulo.findOne({titulo});
-           
-            if(libro){
-              if(libro.stock<=0){
-               carritosafe.push(articulo);
-                }else{
-                  usuario.compras.push(articulo);
-                  libro.stock=(libro.stock-1)
-                }
-                libro.save();
-
-              }
-            });
-              
-          
-              // Agrega el artículo a la lista de compras
-               // Elimina el artículo del carrito
-            
-          
-          usuario.carrito.forEach((itemArt)=>{
-            const index = usuario.carrito.findIndex((item) => item === itemArt);
-            if (index !== -1) {
-               // Agrega el artículo a la lista de compras
-              usuario.carrito.splice(index, 1); // Elimina el artículo del carrito
+            // Buscar al usuario por su email
+            const usuario = await Usuario.findOne({ email });
+            console.log(usuario);
+            if (!usuario) {
+                return res.status(404).json({
+                    ok: false,
+                    mensaje: 'Usuario no encontrado',
+                });
             }
-          });
-          usuario.carrito= carritosafe;
-          // Guardar los cambios en la base de datos
-          await usuario.save();
-      if(carritosafe.length >0){
-        res.status(200).json({
-          ok: true,
-          mensaje: 'Carrito movido a compras correctamente menos algunos libros',
-          usuario: usuario,
-          token: Token.generaToken(usuario),
-          carritosafe:carritosafe
-        });
-      }
-          res.status(200).json({
-            ok: true,
-            mensaje: 'Carrito movido a compras correctamente',
-            usuario: usuario,
-            token: Token.generaToken(usuario),
-            carritosafe:''
-          });
-      
+    
+            const carritoSafe:any = [];
+    
+            for (const articulo of usuario.carrito) {
+                const titulo = articulo.titulo;
+                const libro = await Articulo.findOne({ titulo });
+    
+                if (libro) {
+                    if (libro.stock <= 0) {
+                        // No hay suficiente stock, o no hay stock, mantener en carrito
+                        carritoSafe.push(articulo);
+                    } else {
+                        // Hay stock suficiente
+                        usuario.compras.push(articulo);
+                        libro.stock -= libro.stock; // Restar la cantidad comprada del stock
+                        await libro.save();
+                    }
+                }
+            }
+    
+            usuario.carrito = carritoSafe;
+            await usuario.save();
+    
+            if (carritoSafe.length > 0) {
+                res.status(200).json({
+                    ok: true,
+                    mensaje: 'Carrito movido a compras parcialmente',
+                    usuario: usuario,
+                    token: Token.generaToken(usuario),
+                    carritosafe: carritoSafe
+                });
+            } else {
+                res.status(200).json({
+                    ok: true,
+                    mensaje: 'Carrito movido a compras completamente',
+                    usuario: usuario,
+                    token: Token.generaToken(usuario)
+                });
+            }
         } catch (err:any) {
-          console.error('Error al mover el carrito a compras:', err);
-          res.status(500).json({
-            ok: false,
-            mensaje: 'Error al mover el carrito a compras',
-            error: err.message,
-          });
+            console.error('Error al mover el carrito a compras:', err);
+            res.status(500).json({
+                ok: false,
+                mensaje: 'Error interno del servidor',
+                error: err.message,
+            });
         }
-      }
-      
+    }
+    
 
       async  agregarAFavorito(req: Request, res: Response) {
         console.log("empieza agregar a favs")
