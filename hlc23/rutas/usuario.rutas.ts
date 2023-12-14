@@ -27,5 +27,5 @@ usuarioRutas.post('/eliminarDeFavoritos', usuarioController.prototype.eliminarDe
 usuarioRutas.post('/setEnviado', usuarioController.prototype.setEnviado);
 usuarioRutas.delete('/delete/:email', usuarioController.prototype.delete);
 
-console.log("Rutas")
+
 export default usuarioRutas;
